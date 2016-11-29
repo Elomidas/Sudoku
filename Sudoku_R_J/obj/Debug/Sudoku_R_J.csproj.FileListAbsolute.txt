@@ -1,0 +1,11 @@
+C:\documents\travail\info\C#\Sudoku_R&J\Sudoku_R_J\Sudoku_R_J\bin\Debug\Sudoku_R_J.exe.config
+C:\documents\travail\info\C#\Sudoku_R&J\Sudoku_R_J\Sudoku_R_J\bin\Debug\Sudoku_R_J.exe
+C:\documents\travail\info\C#\Sudoku_R&J\Sudoku_R_J\Sudoku_R_J\bin\Debug\Sudoku_R_J.pdb
+C:\documents\travail\info\C#\Sudoku_R&J\Sudoku_R_J\Sudoku_R_J\obj\Debug\Sudoku_R_J.csprojResolveAssemblyReference.cache
+C:\documents\travail\info\C#\Sudoku_R&J\Sudoku_R_J\Sudoku_R_J\obj\Debug\Sudoku_R_J.Properties.Resources.resources
+C:\documents\travail\info\C#\Sudoku_R&J\Sudoku_R_J\Sudoku_R_J\obj\Debug\Sudoku_R_J.csproj.GenerateResource.Cache
+C:\documents\travail\info\C#\Sudoku_R&J\Sudoku_R_J\Sudoku_R_J\obj\Debug\Sudoku_R_J.exe
+C:\documents\travail\info\C#\Sudoku_R&J\Sudoku_R_J\Sudoku_R_J\obj\Debug\Sudoku_R_J.pdb
+C:\documents\travail\info\C#\Sudoku_R&J\Sudoku_R_J\bin\Debug\Sudoku_R_J.exe.config
+C:\documents\travail\info\C#\Sudoku_R&J\Sudoku_R_J\obj\Debug\Sudoku_R_J.exe
+C:\documents\travail\info\C#\Sudoku_R&J\Sudoku_R_J\obj\Debug\Sudoku_R_J.pdb
