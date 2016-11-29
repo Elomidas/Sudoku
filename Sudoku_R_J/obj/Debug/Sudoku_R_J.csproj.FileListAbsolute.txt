@@ -9,3 +9,6 @@ C:\documents\travail\info\C#\Sudoku_R&J\Sudoku_R_J\Sudoku_R_J\obj\Debug\Sudoku_R
 C:\documents\travail\info\C#\Sudoku_R&J\Sudoku_R_J\bin\Debug\Sudoku_R_J.exe.config
 C:\documents\travail\info\C#\Sudoku_R&J\Sudoku_R_J\obj\Debug\Sudoku_R_J.exe
 C:\documents\travail\info\C#\Sudoku_R&J\Sudoku_R_J\obj\Debug\Sudoku_R_J.pdb
+D:\Code\C#\Sudoku\Sudoku_R_J\bin\Debug\Sudoku_R_J.exe.config
+D:\Code\C#\Sudoku\Sudoku_R_J\obj\Debug\Sudoku_R_J.exe
+D:\Code\C#\Sudoku\Sudoku_R_J\obj\Debug\Sudoku_R_J.pdb

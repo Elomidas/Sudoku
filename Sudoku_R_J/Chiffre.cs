@@ -8,7 +8,7 @@ namespace Sudoku_R_J
 {
     public class Chiffre
     {
-        //un chiffre comprend une valeur comprise entre 1 et 10
+        //un chiffre comprend une valeur comprise entre 1 et 9
         protected int C_valeur;
 
         public Chiffre()
