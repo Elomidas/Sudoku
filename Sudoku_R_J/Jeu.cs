@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sudoku_R_J
 {
-    class Jeu
+    public class Jeu
     {
         private Chiffre[,] tab_jeu;
 
@@ -30,19 +30,21 @@ namespace Sudoku_R_J
             this.tab_jeu[i, j] = new Chiffre_Visible(c.GetValeur());
         }
 
-        public void VerifieTab()
+        public bool VerifieTab()
         {
+            bool b = true;
             for(int i=0; i<9; i++)
             {
                 for(int j=0; j<9; j++)
 
                 {
-                    if( this.tab_jeu[i,j].EstValide() )
+                    if( ! this.tab_jeu[i,j].EstValide() )
                     {
-                        this.tab_jeu[i, j] = new Chiffre_Cache( this.tab_jeu[i,j].GetValeur() );
+                        b = false;
                     }
                 }
             }
+            return b;
         }
     }
 }
