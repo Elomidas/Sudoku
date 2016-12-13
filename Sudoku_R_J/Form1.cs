@@ -12,9 +12,13 @@ namespace Sudoku_R_J
 {
     public partial class Form1 : Form
     {
+        Jeu m_jeu;
+
         public Form1()
         {
             InitializeComponent();
+            m_jeu = new Jeu();
+            Jeu res = Jeu.Generer();
         }
     }
 }

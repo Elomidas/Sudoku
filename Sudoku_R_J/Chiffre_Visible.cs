@@ -9,6 +9,7 @@ namespace Sudoku_R_J
     public class Chiffre_Visible : Chiffre
     {
         //Chiffre qui sera affiché au début du jeu
+        //Valeur fixée
 
         public Chiffre_Visible() : base()
         {
