@@ -116,7 +116,7 @@ namespace Sudoku_R_J
             m_tab_jeu[i, j] = new Chiffre_Visible(Chiffre.Valeur(valeur));
         }
 
-        public void VerifieTab()
+        public bool VerifieTab()
         {
             for (int i = 0; i < 9; i++)
             {
@@ -139,6 +139,8 @@ namespace Sudoku_R_J
             bool test = true;
             //On teste toutes les lignes et toutes les colonnes
             for (int i = 0; (i < 9) && test; i++)
+            bool b = true;
+            for(int i=0; i<9; i++)
             {
                 bool[] dispoL = new bool[9];
                 bool[] dispoC = new bool[9];
@@ -276,6 +278,9 @@ namespace Sudoku_R_J
                         if (valRand == 0)
                             valeur = k + 1;
                         else valRand--;
+                    if( ! this.tab_jeu[i,j].EstValide() )
+                    {
+                        b = false;
                     }
                 }
                 //On regarde si on peut faire une grille avec cette valeur
@@ -308,6 +313,7 @@ namespace Sudoku_R_J
                 Console.WriteLine();
             }
             return tab[0];
+            return b;
         }
     }
 }

@@ -49,17 +49,19 @@
     <Compile Include="Chiffre.cs" />
     <Compile Include="Chiffre_Cache.cs" />
     <Compile Include="Chiffre_Visible.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="FJeu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="FJeu.Designer.cs">
+      <DependentUpon>FJeu.cs</DependentUpon>
     </Compile>
     <Compile Include="Jeu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="FJeu.resx">
+      <DependentUpon>FJeu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
