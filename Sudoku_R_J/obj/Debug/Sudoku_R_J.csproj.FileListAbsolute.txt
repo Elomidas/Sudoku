@@ -1,0 +1,10 @@
+C:\Users\Victor\Documents\Programmation\C#\Sudoku\Sudoku_R_J\bin\Debug\Sudoku_R_J.exe.config
+C:\Users\Victor\Documents\Programmation\C#\Sudoku\Sudoku_R_J\bin\Debug\Sudoku_R_J.exe
+C:\Users\Victor\Documents\Programmation\C#\Sudoku\Sudoku_R_J\bin\Debug\Sudoku_R_J.pdb
+C:\Users\Victor\Documents\Programmation\C#\Sudoku\Sudoku_R_J\obj\Debug\Sudoku_R_J.csprojResolveAssemblyReference.cache
+C:\Users\Victor\Documents\Programmation\C#\Sudoku\Sudoku_R_J\obj\Debug\Sudoku_R_J.Form1.resources
+C:\Users\Victor\Documents\Programmation\C#\Sudoku\Sudoku_R_J\obj\Debug\Sudoku_R_J.FJeu.resources
+C:\Users\Victor\Documents\Programmation\C#\Sudoku\Sudoku_R_J\obj\Debug\Sudoku_R_J.Properties.Resources.resources
+C:\Users\Victor\Documents\Programmation\C#\Sudoku\Sudoku_R_J\obj\Debug\Sudoku_R_J.csproj.GenerateResource.Cache
+C:\Users\Victor\Documents\Programmation\C#\Sudoku\Sudoku_R_J\obj\Debug\Sudoku_R_J.exe
+C:\Users\Victor\Documents\Programmation\C#\Sudoku\Sudoku_R_J\obj\Debug\Sudoku_R_J.pdb

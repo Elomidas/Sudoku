@@ -125,7 +125,7 @@ namespace Sudoku_R_J
                 {
                     if (m_tab_jeu[i, j].EstValide())
                     {
-                        m_tab_jeu[i, j] = new Chiffre_Cache(this.m_tab_jeu[i, j].GetValeur());
+                        //m_tab_jeu[i, j] = new Chiffre_Cache(this.m_tab_jeu[i, j].GetValeur());
                     }
                 }
             }
@@ -296,19 +296,100 @@ namespace Sudoku_R_J
             return res;
         }
 
+        protected void Masquer(int difficulte, Random rand)
+        {
+            bool continuer = true;
+            bool[] tab = new bool[81];
+            for (int i = 0; i < 81; i++)
+                tab[i] = true;
+            int pos = 81;
+            while(pos > 0)
+            {
+                //On choisi une case au hasard
+                int c = rand.Next(pos);
+                int x = -1, y = 0;
+                for(int n = 0; x == -1; n++)
+                {
+                    if(tab[n])
+                    {
+                        if (c == 0)
+                        {
+                            x = n / 9;
+                            y = n % 9;
+                        }
+                        else c--;
+                    }
+                }
+                //On regarde si on peut retirer ce nombre
+                bool[] dispo = new bool[9];
+                for (int n = 0; n < 9; n++)
+                    dispo[n] = true;
+                //On regarde les valeurs sur la colonne ainsi que celles sur la ligne
+                for(int n = 0; n < 9; n++)
+                {
+                    int v = Valeur(x, n);
+                    if ((v != 0) && (n != y))
+                        dispo[v - 1] = false;
+                    v = Valeur(n, y);
+                    if ((v != 0) && (n != x))
+                        dispo[v - 1] = false;
+                }
+                //On regarde ensuite sur le carré
+                int i = x / 3;
+                int j = y / 3;
+                for (int k = 0; (k < 3); k++)
+                {
+                    for (int l = 0; (l < 3); l++)
+                    {
+                        if (Valeur((3 * i) + k, (3 * j) + l) != 0)
+                            dispo[Valeur((3 * i) + k, (3 * j) + l) - 1] = false;
+                    }
+                }
+                //On compte le nombre de possibilités
+                int res = 0;
+                for (int n = 0; n < 9; n++)
+                    res += dispo[n] ? 1 : 0;
+                //Si on n'a pas plus de possibilités que le niveau de difficulté, on essaye d'enlever le chiffre
+                if(res <= difficulte)
+                {
+                    //On créé une copie pour tester
+                    Jeu temp = new Jeu(this);
+                    //On enlève la valeur
+                    temp.Set(x, y, 0);
+                    if (1 == temp.Solve(rand).Length)
+                    {
+                        //Si on a toujours une seule grille possible, on enlève la valeur
+                        m_tab_jeu[x, y] = new Chiffre_Cache(0);
+                    }
+                    else
+                    {
+                        //Sinon elle est necessaires : on la fixe
+                        m_tab_jeu[x, y] = new Chiffre_Visible(Valeur(x, y));
+                    }
+                    tab[(9 * x) + y] = false;
+                    pos--;
+                }
+                else
+                {
+                    //Sinon la valeur ne doit pas être modifiée : on la garde
+                    m_tab_jeu[x, y] = new Chiffre_Visible(Valeur(x, y));
+                }
+            }
+        }
+
         //Retourne un Jeu avec une grille de sudoku générée
-        static public Jeu Generer()
+        //Difficulté (d) comprise entre 1 et 8 (1 très simple, 8 très compliqué
+        static public Jeu Generer(int d)
         {
             Random rand = new Random();
             Jeu res = new Jeu();
             Jeu[] tab = res.Solve(rand);
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                    Console.Write(tab[0].Valeur(i, j) + " ");
-                Console.WriteLine();
-            }
-            return tab[0];
+            res = tab[0];
+            //Arrivé ici, res contient une grille complète
+            //On détermine les chiffres que l'ont peut enlever
+            //Si la difficulté n'est pas une valeur correcte, on choisi 1 par défaut
+            res.Masquer(((d > 0) && (d <= 9)) ? d : 1, rand);
+            return res;
         }
     }
 }
