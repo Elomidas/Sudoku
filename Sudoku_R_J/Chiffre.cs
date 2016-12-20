@@ -55,10 +55,16 @@ namespace Sudoku_R_J
             SetValeur(n);   
         }
 
-        //Retourne la valeur du chiffre, 0 si elle n'est pas valide 
+         
         public int GetValeur()
         {
             return Valeur(m_valeur);
+        }
+
+        //Retourne la valeur du chiffre, 0 si elle n'est pas valide
+        public virtual String GetValeurString()
+        {
+            return Valeur(m_valeur).ToString();
         }
 
         //Affecte une valeur au chiffre, 0 si la valeur n'est pas correcte

@@ -39,9 +39,9 @@ namespace Sudoku_R_J
             return (GetValTapee() == GetValeur());
         }
 
-        public void Affichage()
+        public override String GetValeurString()
         {
-            
+            return "";
         }
     }
 }

@@ -21,6 +21,11 @@ namespace Sudoku_R_J
 
         }
 
+        public override String GetValeurString()
+        {
+            return this.m_valeur.ToString();
+        }
+
         public override bool EstValide()
         {
             return true;

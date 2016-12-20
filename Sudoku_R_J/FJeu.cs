@@ -17,7 +17,7 @@ namespace Sudoku_R_J
         public FJeu()
         {
             InitializeComponent();
-            j = new Jeu();
+            j = Jeu.Generer(1);
         }
 
         public Jeu GetJeu()
@@ -50,20 +50,41 @@ namespace Sudoku_R_J
 
         private void test_Click(object sender, EventArgs e)
         {
+
             
-            if(this.GetJeu().VerifieTab())
+            for(int i=0;i<9;i++)
             {
-                for(int i=0;i<9;i++)
+                for(int j=0;j<9;j++)
                 {
-                    for(int j=0;j<9;j++)
+                    Type t = this.GetJeu().GetElement(i, j).GetType();
+                    if (t.Equals(typeof(Sudoku_R_J.Chiffre_Visible)))
                     {
-                       // ((TextBox)tableLayoutPanel1.GetControlFromPosition(j, i)).Enabled = false;
+                        ((TextBox)tableLayoutPanel1.GetControlFromPosition(j, i)).Text = "1";
+                        
                     }
+                    if (t.Equals(typeof(Sudoku_R_J.Chiffre_Cache)))
+                    {
+                        ((TextBox)tableLayoutPanel1.GetControlFromPosition(j, i)).Text = "0";
+
+                    }
+
                 }
             }
             
-            SetCaseVisible(0, 0, new Chiffre(1));
-            ((TextBox)tableLayoutPanel1.GetControlFromPosition(1, 1)).Text = "8";
+            /*
+            this.GetJeu().SetChiffreCache(0, 0, new Chiffre(1));
+            this.GetJeu().SetChiffreVisible(0, 1, new Chiffre(2));
+            String s = this.GetJeu().ValeurString(0, 0);
+            ((TextBox)tableLayoutPanel1.GetControlFromPosition(0, 0)).Text = s;
+            String s1 = this.GetJeu().ValeurString(0, 1);
+            ((TextBox)tableLayoutPanel1.GetControlFromPosition(1, 0)).Text = s1;
+            */
+
+
+
+
         }
+
+
     }
 }

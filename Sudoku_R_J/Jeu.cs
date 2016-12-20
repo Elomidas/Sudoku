@@ -35,9 +35,14 @@ namespace Sudoku_R_J
             return (index >= 0) && (index < 9);
         }
 
-        protected int Valeur(int i, int j)
+        public int Valeur(int i, int j)
         {
             return IndexOK(i, j) ? m_tab_jeu[i, j].GetValeur() : 0;
+        }
+
+        public String ValeurString(int i, int j)
+        {
+            return IndexOK(i, j) ? m_tab_jeu[i, j].GetValeurString() : "";
         }
 
         protected bool IndexOK(int i, int j)
@@ -101,7 +106,7 @@ namespace Sudoku_R_J
                 }
             }
         }
-
+        
         public void SetChiffreCache(int i, int j, int valeur)
         {
             if (!IndexOK(i, j))
@@ -115,7 +120,7 @@ namespace Sudoku_R_J
                 return;
             m_tab_jeu[i, j] = new Chiffre_Visible(Chiffre.Valeur(valeur));
         }
-
+        
         public bool VerifieTab()
         {
             for (int i = 0; i < 9; i++)
@@ -123,9 +128,9 @@ namespace Sudoku_R_J
                 for (int j = 0; j < 9; j++)
 
                 {
-                    if (m_tab_jeu[i, j].EstValide())
+                    if (! m_tab_jeu[i, j].EstValide())
                     {
-                        //m_tab_jeu[i, j] = new Chiffre_Cache(this.m_tab_jeu[i, j].GetValeur());
+                        return false;
                     }
                 }
             }
@@ -221,7 +226,7 @@ namespace Sudoku_R_J
                 //Si elle n'est pas cohérente, on retourne 0
                 //Une grille est incohérente si on a une case vide avec aucune possibilité ou plusieurs fois le même chiffre dans des carrés, colonnes ou lignes
                 if (!Possible())
-                    return new Jeu[0];
+                return new Jeu[0];
                 //On regarde les possibilités
                 i = 0;
                 j = 0;
@@ -359,7 +364,8 @@ namespace Sudoku_R_J
                     if (1 == temp.Solve(rand).Length)
                     {
                         //Si on a toujours une seule grille possible, on enlève la valeur
-                        m_tab_jeu[x, y] = new Chiffre_Cache(0);
+                        //m_tab_jeu[x, y] = new Chiffre_Cache(0);
+                        this.SetChiffreCache(x, y, Valeur(x, y));
                     }
                     else
                     {
@@ -378,7 +384,7 @@ namespace Sudoku_R_J
         }
 
         //Retourne un Jeu avec une grille de sudoku générée
-        //Difficulté (d) comprise entre 1 et 8 (1 très simple, 8 très compliqué
+        //Difficulté (d) comprise entre 1 et 8 (1 très simple, 8 très compliqué)
         static public Jeu Generer(int d)
         {
             Random rand = new Random();
