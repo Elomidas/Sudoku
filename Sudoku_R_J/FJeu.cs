@@ -56,6 +56,7 @@ namespace Sudoku_R_J
             {
                 for(int j=0;j<9;j++)
                 {
+                    /*
                     Type t = this.GetJeu().GetElement(i, j).GetType();
                     if (t.Equals(typeof(Sudoku_R_J.Chiffre_Visible)))
                     {
@@ -67,6 +68,10 @@ namespace Sudoku_R_J
                         ((TextBox)tableLayoutPanel1.GetControlFromPosition(j, i)).Text = "0";
 
                     }
+                    */
+                    //String s = this.GetJeu().ValeurString(i, j);
+                    String s = this.GetJeu().Valeur(i, j).ToString();
+                    ((TextBox)tableLayoutPanel1.GetControlFromPosition(j, i)).Text = s;
 
                 }
             }
