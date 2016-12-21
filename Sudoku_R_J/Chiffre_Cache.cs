@@ -41,7 +41,7 @@ namespace Sudoku_R_J
 
         public override String GetValeurString()
         {
-            return "";
+            return " ";
         }
     }
 }

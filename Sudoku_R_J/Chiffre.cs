@@ -85,6 +85,13 @@ namespace Sudoku_R_J
                 m_dispo[valeur - 1] = true;
         }
 
+        //Modifie le tableau des disponnibilités
+        public void SetDispo(bool[] dispo)
+        {
+            for (int i = 0; i < 9; i++)
+                m_dispo[i] = dispo[i];
+        }
+
         //Indique qu'une valeur n'est pas disponnible pour ce chiffre
         public void SetNonDispo(int valeur)
         {

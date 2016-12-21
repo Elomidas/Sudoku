@@ -112,6 +112,7 @@ namespace Sudoku_R_J
             if (!IndexOK(i, j))
                 return;
             m_tab_jeu[i, j] = new Chiffre_Cache(Chiffre.Valeur(valeur));
+            Console.WriteLine("Cache : " + m_tab_jeu[i, j].GetValeur());
         }
 
         public void SetChiffreVisible(int i, int j, int valeur)
@@ -119,6 +120,7 @@ namespace Sudoku_R_J
             if (!IndexOK(i, j))
                 return;
             m_tab_jeu[i, j] = new Chiffre_Visible(Chiffre.Valeur(valeur));
+            Console.WriteLine("Visible : " + m_tab_jeu[i, j].GetValeur());
         }
         
         public bool VerifieTab()
@@ -207,8 +209,121 @@ namespace Sudoku_R_J
             return true;
         }
 
-        //Retourne la liste des solutions possibles
-        protected Jeu[] Solve(Random rand)
+        //Recalcule toutes les valeurs disponnibles pour chaque case non remplies
+        protected void CalcDispo()
+        {
+            for(int i = 0; i  < 9; i++)
+            {
+                for(int j = 0; j < 9; j++)
+                {
+                    if(Valeur(i, j) == 0)
+                    {
+                        bool[] dispo = new bool[9];
+                        for (int k = 0; k < 9; k++)
+                            dispo[k] = true;
+                        //On teste la ligne et la colonne
+                        for (int k = 0; k < 9; k++)
+                        {
+                            if (Valeur(k, j) != 0)
+                                dispo[Valeur(k, j) - 1] = false;
+                            if (Valeur(i, k) != 0)
+                                dispo[Valeur(i, k) - 1] = false;
+                        }
+                        //On teste le carré
+                        for (int k = 0; k < 3; k++)
+                        {
+                            for (int l = 0; l < 3; l++)
+                            {
+                                if (Valeur((3 * (i / 3)) + k, (3 * (j / 3)) + l) != 0)
+                                    dispo[Valeur((3 * (i / 3)) + k, (3 * (j / 3)) + l) - 1] = false;
+                            }
+                        }
+                        m_tab_jeu[i, j].SetDispo(dispo);
+                    }
+                }
+            }
+        }
+
+        //Retourne le nombre de grilles possibles avec les valeurs actuelles
+        protected int Solve()
+        {
+            //On charche pour quelle case on a le moins de possibilités
+            //Pour optimiser l'algorithme on remplie toutes les cases avec une seule possibilité
+            //Si on a rempli au moins une case, les possibilités sont diminuées donc on recommence la recherche
+            //Enfin s'il n'y a plus que des cases avec plusieurs possibilités, on selectionne celle qui en a le moins
+            //On créé une nouvelle grille pour chaque possibilité de la case choisie et on réappelle cette fonction pour essayer de resoudre la grille
+            int i, j;
+            bool valeursSimples;
+            do
+            {
+                //On fait les vérifications à chaque itération car une valeur a pu être entrée alors qu'elle est erronnée
+                //Si la grille est pleine et sans incohérance, on retourne 1
+                if (Possible() && Remplie())
+                    return 1;
+                //Si elle n'est pas cohérente, on retourne 0
+                //Une grille est incohérente si on a une case vide avec aucune possibilité ou plusieurs fois le même chiffre dans des carrés, colonnes ou lignes
+                if (!Possible())
+                    return 0;
+                //On regarde les possibilités
+                i = 0;
+                j = 0;
+                //On réinitialise notre valeur de test de while() pour ne pas avoir de boucle infinie
+                valeursSimples = false;
+                for (int x = 0; (x < 9); x++)
+                {
+                    for (int y = 0; (y < 9); y++)
+                    {
+                        //Si on a une case vide sans valeurs possible la grille est incohérente 
+                        if (m_tab_jeu[x, y].NbDispo() == 0)
+                            return 0;
+                        if (m_tab_jeu[x, y].NbDispo() == 1)
+                        {
+                            //Si on trouve une case avec une seule valeur possible, on rentre cette valeur
+                            bool[] temp = m_tab_jeu[x, y].Dispo();
+                            //L'ajout d'une valeur a modifié les possibilités des cases sur ses ligne, colonne et carré
+                            //Il faut donc revérifier les cases au dessus de celle-ci, c'est pourquoi on recommence la boucle
+                            valeursSimples = true;
+                            for (int z = 0; z < 9; z++)
+                            {
+                                if (temp[z])
+                                {
+                                    Set(x, y, (z + 1));
+                                    SetChiffreVisible(x, y, (z + 1));
+                                }
+                            }
+                        }
+                        else if ((!valeursSimples) && (m_tab_jeu[x, y].NbDispo() < m_tab_jeu[i, j].NbDispo()))
+                        {
+                            //On ne continue de chercher la case avec le moins de possibilité que si aucune case ayant une seule possibilité n'a été trouvée
+                            //En effet, dans ce cas les probabilités ont changé donc la recherche est faussée pour cette boucle
+                            i = x;
+                            j = y;
+                        }
+                    }
+                }
+            } while (valeursSimples);
+            //On fait en fonction des possibilités disponnibles
+            bool[] dispo = m_tab_jeu[i, j].Dispo();
+            int taille = m_tab_jeu[i, j].NbDispo();
+            int res = 0;
+            //On teste toutes les valeurs
+            int valeur = 0;
+            for (int k = 0; k < 9; k++)
+            {
+                if (dispo[k])
+                {
+                    //On regarde combien de grilles sont possibles avec cette valeur
+                    Jeu temp = new Jeu(this);
+                    temp.Set(i, j, valeur);
+                    res += temp.Solve();
+                }
+            }
+            //res contient toutes les grilles possibles avec les chiffres de départ
+            return res;
+        }
+
+        //Remplie aléatoirement une grille
+        protected Jeu[] RempAlea(Random rand)
         {
             //On charche pour quelle case on a le moins de possibilités
             //Pour optimiser l'algorithme on remplie toutes les cases avec une seule possibilité
@@ -226,7 +341,7 @@ namespace Sudoku_R_J
                 //Si elle n'est pas cohérente, on retourne 0
                 //Une grille est incohérente si on a une case vide avec aucune possibilité ou plusieurs fois le même chiffre dans des carrés, colonnes ou lignes
                 if (!Possible())
-                return new Jeu[0];
+                    return new Jeu[0];
                 //On regarde les possibilités
                 i = 0;
                 j = 0;
@@ -275,7 +390,7 @@ namespace Sudoku_R_J
                 continuer = false;
                 int valRand = rand.Next(taille);
                 int valeur = 0;
-                for(int k = 0; valeur == 0; k++)
+                for (int k = 0; valeur == 0; k++)
                 {
                     if (dispo[k])
                     {
@@ -287,7 +402,7 @@ namespace Sudoku_R_J
                 //On regarde si on peut faire une grille avec cette valeur
                 Jeu temp = new Jeu(this);
                 temp.Set(i, j, valeur);
-                res = temp.Solve(rand);
+                res = temp.RempAlea(rand);
                 if ((taille > 1) && (res.Length == 0))
                 {
                     taille--;
@@ -303,7 +418,6 @@ namespace Sudoku_R_J
 
         protected void Masquer(int difficulte, Random rand)
         {
-            bool continuer = true;
             bool[] tab = new bool[81];
             for (int i = 0; i < 81; i++)
                 tab[i] = true;
@@ -312,6 +426,7 @@ namespace Sudoku_R_J
             {
                 //On choisi une case au hasard
                 int c = rand.Next(pos);
+                Console.WriteLine(c);
                 int x = -1, y = 0;
                 for(int n = 0; x == -1; n++)
                 {
@@ -361,16 +476,19 @@ namespace Sudoku_R_J
                     Jeu temp = new Jeu(this);
                     //On enlève la valeur
                     temp.Set(x, y, 0);
-                    if (1 == temp.Solve(rand).Length)
+                    temp.CalcDispo();
+                    if (1 == temp.Solve())
                     {
                         //Si on a toujours une seule grille possible, on enlève la valeur
                         //m_tab_jeu[x, y] = new Chiffre_Cache(0);
-                        this.SetChiffreCache(x, y, Valeur(x, y));
+                        SetChiffreCache(x, y, Valeur(x, y));
+                        //this.SetChiffreCache(x, y, Valeur(x, y));
                     }
                     else
                     {
                         //Sinon elle est necessaires : on la fixe
-                        m_tab_jeu[x, y] = new Chiffre_Visible(Valeur(x, y));
+                        SetChiffreVisible(x, y, Valeur(x, y));
+                        //m_tab_jeu[x, y] = new Chiffre_Visible(Valeur(x, y));
                     }
                     tab[(9 * x) + y] = false;
                     pos--;
@@ -389,7 +507,7 @@ namespace Sudoku_R_J
         {
             Random rand = new Random();
             Jeu res = new Jeu();
-            Jeu[] tab = res.Solve(rand);
+            Jeu[] tab = res.RempAlea(rand);
             res = tab[0];
             //Arrivé ici, res contient une grille complète
             //On détermine les chiffres que l'ont peut enlever
