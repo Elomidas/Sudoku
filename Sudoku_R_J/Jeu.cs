@@ -77,7 +77,7 @@ namespace Sudoku_R_J
         //Setter utilisé pour générer la grille de sudoku aléatoirement
         protected void Set(int x, int y, int valeur)
         {
-            if (OK(x) && OK(y))
+            if (IndexOK(x, y))
             {
                 m_tab_jeu[x, y].SetValeur(valeur);
                 if (valeur != 0)
@@ -85,9 +85,9 @@ namespace Sudoku_R_J
                     //On informe les cases de la ligne et de la colonne que la valeur n'est plus dispo
                     for (int k = 0; k < 9; k++)
                     {
-                        if (m_tab_jeu[x, k].Dispo(valeur))
+                        if (m_tab_jeu[x, k].Dispo(valeur) && (k != y))
                             m_tab_jeu[x, k].SetNonDispo(valeur);
-                        if (m_tab_jeu[k, y].Dispo(valeur))
+                        if (m_tab_jeu[k, y].Dispo(valeur) && (k != x))
                             m_tab_jeu[k, y].SetNonDispo(valeur);
                     }
                     //On informe les cases du carré que la valeur n'est plus dispo
@@ -99,7 +99,7 @@ namespace Sudoku_R_J
                         {
                             int pX = (3 * i) + k;
                             int pY = (3 * j) + l;
-                            if (m_tab_jeu[pX, pY].Dispo(valeur))
+                            if (m_tab_jeu[pX, pY].Dispo(valeur) && (pX != x) && (pY != y))
                                 m_tab_jeu[pX, pY].SetNonDispo(valeur);
                         }
                     }
@@ -112,7 +112,7 @@ namespace Sudoku_R_J
             if (!IndexOK(i, j))
                 return;
             m_tab_jeu[i, j] = new Chiffre_Cache(Chiffre.Valeur(valeur));
-            Console.WriteLine("Cache : " + m_tab_jeu[i, j].GetValeur());
+            //Console.WriteLine("Cache : " + m_tab_jeu[i, j].GetValeur());
         }
 
         public void SetChiffreVisible(int i, int j, int valeur)
@@ -120,7 +120,7 @@ namespace Sudoku_R_J
             if (!IndexOK(i, j))
                 return;
             m_tab_jeu[i, j] = new Chiffre_Visible(Chiffre.Valeur(valeur));
-            Console.WriteLine("Visible : " + m_tab_jeu[i, j].GetValeur());
+            //Console.WriteLine("Visible : " + m_tab_jeu[i, j].GetValeur());
         }
         
         public bool VerifieTab()
@@ -157,12 +157,14 @@ namespace Sudoku_R_J
                 }
                 for (int j = 0; (j < 9) && test; j++)
                 {
+                    //On teste les lignes
                     if (Valeur(i, j) != 0)
                     {
                         test = dispoL[Valeur(i, j) - 1];
                         dispoL[Valeur(i, j) - 1] = false;
                     }
-                    if (Valeur(j, i) != 0)
+                    //On teste les colonnes
+                    if (test && (Valeur(j, i) != 0))
                     {
                         test = dispoC[Valeur(j, i) - 1];
                         dispoC[Valeur(j, i) - 1] = false;
@@ -287,7 +289,7 @@ namespace Sudoku_R_J
                             {
                                 if (temp[z])
                                 {
-                                    Set(x, y, (z + 1));
+                                    //Set(x, y, (z + 1));
                                     SetChiffreVisible(x, y, (z + 1));
                                 }
                             }
@@ -307,14 +309,13 @@ namespace Sudoku_R_J
             int taille = m_tab_jeu[i, j].NbDispo();
             int res = 0;
             //On teste toutes les valeurs
-            int valeur = 0;
-            for (int k = 0; k < 9; k++)
+            for (int k = 0; (k < 9) && (res < 2); k++)
             {
                 if (dispo[k])
                 {
                     //On regarde combien de grilles sont possibles avec cette valeur
                     Jeu temp = new Jeu(this);
-                    temp.Set(i, j, valeur);
+                    temp.SetChiffreVisible(i, j, k+1);
                     res += temp.Solve();
                 }
             }
@@ -337,11 +338,17 @@ namespace Sudoku_R_J
                 //On fait les vérifications à chaque itération car une valeur a pu être entrée alors qu'elle est erronnée
                 //Si la grille est pleine et sans incohérance, on retourne 1
                 if (Possible() && Remplie())
+                {
+                    //Console.WriteLine("Fin normale");
                     return new Jeu[] { this };
+                }
                 //Si elle n'est pas cohérente, on retourne 0
                 //Une grille est incohérente si on a une case vide avec aucune possibilité ou plusieurs fois le même chiffre dans des carrés, colonnes ou lignes
                 if (!Possible())
+                {
+                    //Console.WriteLine("Fin impossible");
                     return new Jeu[0];
+                }
                 //On regarde les possibilités
                 i = 0;
                 j = 0;
@@ -405,6 +412,7 @@ namespace Sudoku_R_J
                 res = temp.RempAlea(rand);
                 if ((taille > 1) && (res.Length == 0))
                 {
+                    //Si aucune grille n'a pu être remplie avec cette valeur, on la supprime des possibilités et on recommence
                     taille--;
                     dispo[valeur - 1] = false;
                     continuer = true;
@@ -426,7 +434,6 @@ namespace Sudoku_R_J
             {
                 //On choisi une case au hasard
                 int c = rand.Next(pos);
-                Console.WriteLine(c);
                 int x = -1, y = 0;
                 for(int n = 0; x == -1; n++)
                 {
@@ -490,14 +497,14 @@ namespace Sudoku_R_J
                         SetChiffreVisible(x, y, Valeur(x, y));
                         //m_tab_jeu[x, y] = new Chiffre_Visible(Valeur(x, y));
                     }
-                    tab[(9 * x) + y] = false;
-                    pos--;
                 }
                 else
                 {
                     //Sinon la valeur ne doit pas être modifiée : on la garde
                     m_tab_jeu[x, y] = new Chiffre_Visible(Valeur(x, y));
                 }
+                tab[(9 * x) + y] = false;
+                pos--;
             }
         }
 

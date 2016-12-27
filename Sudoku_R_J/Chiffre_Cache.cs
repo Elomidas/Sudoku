@@ -36,12 +36,17 @@ namespace Sudoku_R_J
 
         public override bool EstValide()
         {
-            return (GetValTapee() == GetValeur());
+            return (GetValTapee() == m_valeur);
         }
 
         public override String GetValeurString()
         {
             return " ";
+        }
+
+        public override int GetValeur()
+        {
+            return 0;
         }
     }
 }

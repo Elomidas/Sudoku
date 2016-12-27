@@ -56,7 +56,7 @@ namespace Sudoku_R_J
         }
 
          
-        public int GetValeur()
+        public virtual int GetValeur()
         {
             return Valeur(m_valeur);
         }

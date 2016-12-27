@@ -69,8 +69,8 @@ namespace Sudoku_R_J
 
                     }
                     */
-                    //String s = this.GetJeu().ValeurString(i, j);
-                    String s = this.GetJeu().Valeur(i, j).ToString();
+                    String s = this.GetJeu().ValeurString(i, j);
+                    //String s = this.GetJeu().Valeur(i, j).ToString();
                     ((TextBox)tableLayoutPanel1.GetControlFromPosition(j, i)).Text = s;
 
                 }
