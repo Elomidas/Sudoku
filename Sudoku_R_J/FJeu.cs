@@ -12,17 +12,16 @@ namespace Sudoku_R_J
 {
     public partial class FJeu : Form
     {
-        private Jeu j;
+        private Jeu jeu;
 
         public FJeu()
         {
             InitializeComponent();
-            j = Jeu.Generer(1);
         }
 
         public Jeu GetJeu()
         {
-            return this.j;
+            return this.jeu;
         }
 
 
@@ -45,51 +44,151 @@ namespace Sudoku_R_J
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
+            
+            TextBox tb = (TextBox)sender;
+            String text = tb.Text;
+            int pos = tb.TabIndex;
+            int i = (pos -1) / 9;
+            int j = (pos -1) % 9;
+            int nbr;
+            switch (text)
+            {
+                case "1" : nbr = 1;
+                    break;
+                case "2" : nbr = 2;
+                    break;
+                case "3" : nbr = 3;
+                    break;
+                case "4" : nbr = 4;
+                    break;
+                case "5" : nbr = 5;
+                    break;
+                case "6" : nbr = 6;
+                    break;
+                case "7" : nbr = 7;
+                    break;
+                case "8" : nbr = 8;
+                    break;
+                case "9" : nbr = 9;
+                    break;
+                default : nbr = 0;
+                    break;
+            }
+            //Console.WriteLine(pos + " " + i + " " + j + " " + nbr);
+            if(!GetJeu().GetElement(i,j).EstVisible())
+                this.GetJeu().SetChiffreCache(i, j, new Chiffre(nbr));
+            
         }
 
-        private void test_Click(object sender, EventArgs e)
+        private void niveau1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            
-            for(int i=0;i<9;i++)
+            jeu = Jeu.Generer(1);
+            for (int i = 0; i < 9; i++)
             {
-                for(int j=0;j<9;j++)
+                for (int j = 0; j < 9; j++)
                 {
-                    /*
-                    Type t = this.GetJeu().GetElement(i, j).GetType();
-                    if (t.Equals(typeof(Sudoku_R_J.Chiffre_Visible)))
-                    {
-                        ((TextBox)tableLayoutPanel1.GetControlFromPosition(j, i)).Text = "1";
-                        
-                    }
-                    if (t.Equals(typeof(Sudoku_R_J.Chiffre_Cache)))
-                    {
-                        ((TextBox)tableLayoutPanel1.GetControlFromPosition(j, i)).Text = "0";
 
-                    }
-                    */
                     String s = this.GetJeu().ValeurString(i, j);
-                    //String s = this.GetJeu().Valeur(i, j).ToString();
                     ((TextBox)tableLayoutPanel1.GetControlFromPosition(j, i)).Text = s;
 
                 }
             }
-            
-            /*
-            this.GetJeu().SetChiffreCache(0, 0, new Chiffre(1));
-            this.GetJeu().SetChiffreVisible(0, 1, new Chiffre(2));
-            String s = this.GetJeu().ValeurString(0, 0);
-            ((TextBox)tableLayoutPanel1.GetControlFromPosition(0, 0)).Text = s;
-            String s1 = this.GetJeu().ValeurString(0, 1);
-            ((TextBox)tableLayoutPanel1.GetControlFromPosition(1, 0)).Text = s1;
-            */
-
-
-
-
         }
 
+        private void niveau2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            jeu = Jeu.Generer(2);
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
 
+                    String s = this.GetJeu().ValeurString(i, j);
+                    ((TextBox)tableLayoutPanel1.GetControlFromPosition(j, i)).Text = s;
+
+                }
+            }
+        }
+
+        private void niveau3ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            jeu = Jeu.Generer(3);
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+
+                    String s = this.GetJeu().ValeurString(i, j);
+                    ((TextBox)tableLayoutPanel1.GetControlFromPosition(j, i)).Text = s;
+
+                }
+            }
+        }
+
+        private void quitterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void testerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            /*
+            if (!jeu.Remplie())
+            {
+                try
+                {
+                    //On affiche un message indiquant que la grille n'est pas remplie 
+                    MessageBox.Show("Veuillez la remplir avant de tester votre solution.", "La grille n'est pas entièrement remplie !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("\n" + ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
+            }
+            else if (jeu.Possible())
+            {
+                try
+                {
+                    //On affiche un message indiquant que la grille est juste 
+                    MessageBox.Show("Bravo, votre grille est correcte !", "Grille correcte !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("\n" + ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
+
+            }
+            else
+            {
+                try
+                {
+                    //On affiche un message indiquant que la grille est juste 
+                    MessageBox.Show("Veuillez recommencer.", "Votre grille est incorrecte !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("\n" + ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            */
+
+            /*
+            for(int i = 0;i<9;i++)
+            {
+                for(int j = 0; j<9; j++)
+                {
+                    Console.Write(jeu.Valeur(i, j) + " ");
+                }
+                Console.WriteLine();
+            }
+            */
+            
+            Chiffre y = new Chiffre(2);
+            this.GetJeu().SetChiffreCache(0, 1, y);
+            Console.WriteLine(GetJeu().GetElement(0,1).GetValeurString());
+            
+        }
     }
 }

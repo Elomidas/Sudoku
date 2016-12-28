@@ -59,21 +59,30 @@ namespace Sudoku_R_J
         {
             return IndexOK(i, j) ? m_tab_jeu[i, j] : new Chiffre();
         }
-
+        
         public void SetChiffreCache(int i, int j, Chiffre c)
         {
             if (!IndexOK(i, j))
                 return;
             m_tab_jeu[i, j] = new Chiffre_Cache(c.GetValeur());
         }
-
+        /*
+        public void SetValeurTapee(int i, int j, int val_tapee)
+        {
+            if (!IndexOK(i, j))
+                return;
+            int valeur = m_tab_jeu[i, j].GetValeur();
+            m_tab_jeu[i, j] = new Chiffre_Cache(valeur);
+            m_tab_jeu[i, j].SetValTapee(val_tapee);
+        }
+        */
         public void SetChiffreVisible(int i, int j, Chiffre c)
         {
             if (!IndexOK(i, j))
                 return;
             m_tab_jeu[i, j] = new Chiffre_Visible(c.GetValeur());
         }
-
+        
         //Setter utilisé pour générer la grille de sudoku aléatoirement
         protected void Set(int x, int y, int valeur)
         {

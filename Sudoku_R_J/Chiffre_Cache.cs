@@ -41,8 +41,25 @@ namespace Sudoku_R_J
 
         public override String GetValeurString()
         {
-            return " ";
+            if (this.m_valeur_tapee == 0)
+            {
+                return "";            
+            }
+               
+            else
+                return this.m_valeur_tapee.ToString();
         }
+
+        public override bool EstCache()
+        {
+            return true;
+        }
+
+        public override bool EstVisible()
+        {
+            return base.EstVisible();
+        }
+
 
         public override int GetValeur()
         {

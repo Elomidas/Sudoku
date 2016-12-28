@@ -55,7 +55,16 @@ namespace Sudoku_R_J
             SetValeur(n);   
         }
 
-         
+        public virtual bool EstCache()
+        {
+            return false;
+        }
+
+        public virtual bool EstVisible()
+        {
+            return false;
+        }
+
         public virtual int GetValeur()
         {
             return Valeur(m_valeur);

@@ -26,6 +26,16 @@ namespace Sudoku_R_J
             return this.m_valeur.ToString();
         }
 
+        public override bool EstCache()
+        {
+            return base.EstCache();
+        }
+
+        public override bool EstVisible()
+        {
+            return true;
+        }
+
         public override bool EstValide()
         {
             return true;
