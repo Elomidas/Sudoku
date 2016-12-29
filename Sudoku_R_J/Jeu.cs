@@ -35,9 +35,16 @@ namespace Sudoku_R_J
             return (index >= 0) && (index < 9);
         }
 
+        //Retourne la valeur attendue pour la case visée
         public int Valeur(int i, int j)
         {
             return IndexOK(i, j) ? m_tab_jeu[i, j].GetValeur() : 0;
+        }
+
+        //Retourne la valeur visible pour la case visée
+        public int ValeurVisible(int i, int j)
+        {
+            return IndexOK(i, j) ? m_tab_jeu[i, j].GetValeurVisible() : 0;
         }
 
         public String ValeurString(int i, int j)
@@ -52,7 +59,7 @@ namespace Sudoku_R_J
 
         public bool Cache(int i, int j)
         {
-            return IndexOK(i, j) && (m_tab_jeu[i, j] is Chiffre_Cache);
+            return IndexOK(i, j) ? m_tab_jeu[i, j].EstCache() : false;
         }
 
         public Chiffre GetElement(int i, int j)// i--> ligne // j--> colonne
@@ -66,16 +73,7 @@ namespace Sudoku_R_J
                 return;
             m_tab_jeu[i, j] = new Chiffre_Cache(c.GetValeur());
         }
-        /*
-        public void SetValeurTapee(int i, int j, int val_tapee)
-        {
-            if (!IndexOK(i, j))
-                return;
-            int valeur = m_tab_jeu[i, j].GetValeur();
-            m_tab_jeu[i, j] = new Chiffre_Cache(valeur);
-            m_tab_jeu[i, j].SetValTapee(val_tapee);
-        }
-        */
+
         public void SetChiffreVisible(int i, int j, Chiffre c)
         {
             if (!IndexOK(i, j))
@@ -115,13 +113,18 @@ namespace Sudoku_R_J
                 }
             }
         }
+
+        public void SetVisible(int i, int j, int v)
+        {
+            if (Cache(i, j))
+                ((Chiffre_Cache)m_tab_jeu[i, j]).SetValTapee(v);
+        }
         
         public void SetChiffreCache(int i, int j, int valeur)
         {
             if (!IndexOK(i, j))
                 return;
             m_tab_jeu[i, j] = new Chiffre_Cache(Chiffre.Valeur(valeur));
-            //Console.WriteLine("Cache : " + m_tab_jeu[i, j].GetValeur());
         }
 
         public void SetChiffreVisible(int i, int j, int valeur)
@@ -129,7 +132,6 @@ namespace Sudoku_R_J
             if (!IndexOK(i, j))
                 return;
             m_tab_jeu[i, j] = new Chiffre_Visible(Chiffre.Valeur(valeur));
-            //Console.WriteLine("Visible : " + m_tab_jeu[i, j].GetValeur());
         }
         
         public bool VerifieTab()
@@ -140,9 +142,7 @@ namespace Sudoku_R_J
 
                 {
                     if (! m_tab_jeu[i, j].EstValide())
-                    {
                         return false;
-                    }
                 }
             }
             return true;
@@ -167,16 +167,16 @@ namespace Sudoku_R_J
                 for (int j = 0; (j < 9) && test; j++)
                 {
                     //On teste les lignes
-                    if (Valeur(i, j) != 0)
+                    if (ValeurVisible(i, j) != 0)
                     {
-                        test = dispoL[Valeur(i, j) - 1];
-                        dispoL[Valeur(i, j) - 1] = false;
+                        test = dispoL[ValeurVisible(i, j) - 1];
+                        dispoL[ValeurVisible(i, j) - 1] = false;
                     }
                     //On teste les colonnes
-                    if (test && (Valeur(j, i) != 0))
+                    if (test && (ValeurVisible(j, i) != 0))
                     {
-                        test = dispoC[Valeur(j, i) - 1];
-                        dispoC[Valeur(j, i) - 1] = false;
+                        test = dispoC[ValeurVisible(j, i) - 1];
+                        dispoC[ValeurVisible(j, i) - 1] = false;
                     }
                 }
             }
@@ -192,10 +192,10 @@ namespace Sudoku_R_J
                     {
                         for (int l = 0; (l < 3) && test; l++)
                         {
-                            if (Valeur((3 * i) + k, (3 * j) + l) != 0)
+                            if (ValeurVisible((3 * i) + k, (3 * j) + l) != 0)
                             {
-                                test = dispo[Valeur((3 * i) + k, (3 * j) + l) - 1];
-                                dispo[Valeur((3 * i) + k, (3 * j) + l) - 1] = false;
+                                test = dispo[ValeurVisible((3 * i) + k, (3 * j) + l) - 1];
+                                dispo[ValeurVisible((3 * i) + k, (3 * j) + l) - 1] = false;
                             }
                         }
                     }
@@ -213,7 +213,7 @@ namespace Sudoku_R_J
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    if (Valeur(i, j) == 0)
+                    if (ValeurVisible(i, j) == 0)
                         return false;
                 }
             }
@@ -227,7 +227,7 @@ namespace Sudoku_R_J
             {
                 for(int j = 0; j < 9; j++)
                 {
-                    if(Valeur(i, j) == 0)
+                    if(ValeurVisible(i, j) == 0)
                     {
                         bool[] dispo = new bool[9];
                         for (int k = 0; k < 9; k++)
@@ -235,18 +235,18 @@ namespace Sudoku_R_J
                         //On teste la ligne et la colonne
                         for (int k = 0; k < 9; k++)
                         {
-                            if (Valeur(k, j) != 0)
-                                dispo[Valeur(k, j) - 1] = false;
-                            if (Valeur(i, k) != 0)
-                                dispo[Valeur(i, k) - 1] = false;
+                            if (ValeurVisible(k, j) != 0)
+                                dispo[ValeurVisible(k, j) - 1] = false;
+                            if (ValeurVisible(i, k) != 0)
+                                dispo[ValeurVisible(i, k) - 1] = false;
                         }
                         //On teste le carré
                         for (int k = 0; k < 3; k++)
                         {
                             for (int l = 0; l < 3; l++)
                             {
-                                if (Valeur((3 * (i / 3)) + k, (3 * (j / 3)) + l) != 0)
-                                    dispo[Valeur((3 * (i / 3)) + k, (3 * (j / 3)) + l) - 1] = false;
+                                if (ValeurVisible((3 * (i / 3)) + k, (3 * (j / 3)) + l) != 0)
+                                    dispo[ValeurVisible((3 * (i / 3)) + k, (3 * (j / 3)) + l) - 1] = false;
                             }
                         }
                         m_tab_jeu[i, j].SetDispo(dispo);
@@ -328,7 +328,7 @@ namespace Sudoku_R_J
                     res += temp.Solve();
                 }
             }
-            //res contient toutes les grilles possibles avec les chiffres de départ
+            //res contient le nombre de grilles possibles avec les chiffres de départ (2 s'il y en a 2 ou plus)
             return res;
         }
 
@@ -463,10 +463,10 @@ namespace Sudoku_R_J
                 //On regarde les valeurs sur la colonne ainsi que celles sur la ligne
                 for(int n = 0; n < 9; n++)
                 {
-                    int v = Valeur(x, n);
+                    int v = ValeurVisible(x, n);
                     if ((v != 0) && (n != y))
                         dispo[v - 1] = false;
-                    v = Valeur(n, y);
+                    v = ValeurVisible(n, y);
                     if ((v != 0) && (n != x))
                         dispo[v - 1] = false;
                 }
@@ -477,8 +477,8 @@ namespace Sudoku_R_J
                 {
                     for (int l = 0; (l < 3); l++)
                     {
-                        if (Valeur((3 * i) + k, (3 * j) + l) != 0)
-                            dispo[Valeur((3 * i) + k, (3 * j) + l) - 1] = false;
+                        if (ValeurVisible((3 * i) + k, (3 * j) + l) != 0)
+                            dispo[ValeurVisible((3 * i) + k, (3 * j) + l) - 1] = false;
                     }
                 }
                 //On compte le nombre de possibilités
@@ -496,21 +496,18 @@ namespace Sudoku_R_J
                     if (1 == temp.Solve())
                     {
                         //Si on a toujours une seule grille possible, on enlève la valeur
-                        //m_tab_jeu[x, y] = new Chiffre_Cache(0);
                         SetChiffreCache(x, y, Valeur(x, y));
-                        //this.SetChiffreCache(x, y, Valeur(x, y));
                     }
                     else
                     {
                         //Sinon elle est necessaires : on la fixe
                         SetChiffreVisible(x, y, Valeur(x, y));
-                        //m_tab_jeu[x, y] = new Chiffre_Visible(Valeur(x, y));
                     }
                 }
                 else
                 {
                     //Sinon la valeur ne doit pas être modifiée : on la garde
-                    m_tab_jeu[x, y] = new Chiffre_Visible(Valeur(x, y));
+                    SetChiffreVisible(x, y, Valeur(x, y));
                 }
                 tab[(9 * x) + y] = false;
                 pos--;

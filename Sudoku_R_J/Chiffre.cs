@@ -52,7 +52,7 @@ namespace Sudoku_R_J
         public Chiffre(int n)
         {
             Init();
-            SetValeur(n);   
+            SetValeur(n);
         }
 
         public virtual bool EstCache()
@@ -65,7 +65,12 @@ namespace Sudoku_R_J
             return false;
         }
 
-        public virtual int GetValeur()
+        public int GetValeur()
+        {
+            return Valeur(m_valeur);
+        }
+
+        public virtual int GetValeurVisible()
         {
             return Valeur(m_valeur);
         }

@@ -31,7 +31,7 @@ namespace Sudoku_R_J
 
         public void SetValTapee(int v)
         {
-            m_valeur_tapee = v;
+            m_valeur_tapee = Valeur(v);
         }
 
         public override bool EstValide()
@@ -45,9 +45,7 @@ namespace Sudoku_R_J
             {
                 return "";            
             }
-               
-            else
-                return this.m_valeur_tapee.ToString();
+            else return this.m_valeur_tapee.ToString();
         }
 
         public override bool EstCache()
@@ -60,10 +58,9 @@ namespace Sudoku_R_J
             return base.EstVisible();
         }
 
-
-        public override int GetValeur()
+        public override int GetValeurVisible()
         {
-            return 0;
+            return GetValTapee();
         }
     }
 }

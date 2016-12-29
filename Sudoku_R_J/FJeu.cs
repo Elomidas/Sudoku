@@ -74,55 +74,39 @@ namespace Sudoku_R_J
                 default : nbr = 0;
                     break;
             }
-            //Console.WriteLine(pos + " " + i + " " + j + " " + nbr);
-            if(!GetJeu().GetElement(i,j).EstVisible())
-                this.GetJeu().SetChiffreCache(i, j, new Chiffre(nbr));
+            GetJeu().SetVisible(i, j, nbr);
             
+        }
+
+        private void GenererJeu(int difficulte)
+        {
+            jeu = Jeu.Generer(difficulte);
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    String s = this.GetJeu().ValeurString(i, j);
+                    //On fait en sorte que la TextBox affiche la valeur en mémoire
+                    ((TextBox)tableLayoutPanel1.GetControlFromPosition(j, i)).Text = s;
+                    //Si l'élément est visible on ne doit pas pouvoir le le modifier
+                    ((TextBox)tableLayoutPanel1.GetControlFromPosition(j, i)).Enabled = GetJeu().Cache(i, j);
+                }
+            }
         }
 
         private void niveau1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            jeu = Jeu.Generer(1);
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-
-                    String s = this.GetJeu().ValeurString(i, j);
-                    ((TextBox)tableLayoutPanel1.GetControlFromPosition(j, i)).Text = s;
-
-                }
-            }
+            GenererJeu(1);
         }
 
         private void niveau2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            jeu = Jeu.Generer(2);
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-
-                    String s = this.GetJeu().ValeurString(i, j);
-                    ((TextBox)tableLayoutPanel1.GetControlFromPosition(j, i)).Text = s;
-
-                }
-            }
+            GenererJeu(2);
         }
 
         private void niveau3ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            jeu = Jeu.Generer(3);
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-
-                    String s = this.GetJeu().ValeurString(i, j);
-                    ((TextBox)tableLayoutPanel1.GetControlFromPosition(j, i)).Text = s;
-
-                }
-            }
+            GenererJeu(3);
         }
 
         private void quitterToolStripMenuItem_Click(object sender, EventArgs e)
@@ -132,63 +116,48 @@ namespace Sudoku_R_J
 
         private void testerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /*
-            if (!jeu.Remplie())
+            if (jeu != null)
             {
-                try
+                if (!jeu.Remplie())
                 {
-                    //On affiche un message indiquant que la grille n'est pas remplie 
-                    MessageBox.Show("Veuillez la remplir avant de tester votre solution.", "La grille n'est pas entièrement remplie !", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("\n" + ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                
-            }
-            else if (jeu.Possible())
-            {
-                try
-                {
-                    //On affiche un message indiquant que la grille est juste 
-                    MessageBox.Show("Bravo, votre grille est correcte !", "Grille correcte !", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("\n" + ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                
+                    try
+                    {
+                        //On affiche un message indiquant que la grille n'est pas remplie 
+                        MessageBox.Show("Veuillez la remplir avant de tester votre solution.", "La grille n'est pas entièrement remplie !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("\n" + ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
 
-            }
-            else
-            {
-                try
-                {
-                    //On affiche un message indiquant que la grille est juste 
-                    MessageBox.Show("Veuillez recommencer.", "Votre grille est incorrecte !", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                catch (Exception ex)
+                else if (jeu.VerifieTab())
                 {
-                    MessageBox.Show("\n" + ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            */
+                    try
+                    {
+                        //On affiche un message indiquant que la grille est juste 
+                        MessageBox.Show("Bravo, votre grille est correcte !", "Grille correcte !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("\n" + ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
 
-            /*
-            for(int i = 0;i<9;i++)
-            {
-                for(int j = 0; j<9; j++)
-                {
-                    Console.Write(jeu.Valeur(i, j) + " ");
+
                 }
-                Console.WriteLine();
+                else
+                {
+                    try
+                    {
+                        //On affiche un message indiquant que la grille est juste 
+                        MessageBox.Show("Veuillez recommencer.", "Votre grille est incorrecte !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("\n" + ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
-            */
-            
-            Chiffre y = new Chiffre(2);
-            this.GetJeu().SetChiffreCache(0, 1, y);
-            Console.WriteLine(GetJeu().GetElement(0,1).GetValeurString());
-            
         }
     }
 }
