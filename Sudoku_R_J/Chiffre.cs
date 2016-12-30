@@ -102,7 +102,7 @@ namespace Sudoku_R_J
         //Modifie le tableau des disponnibilités
         public void SetDispo(bool[] dispo)
         {
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; (i < 9) && (i < dispo.Length); i++)
                 m_dispo[i] = dispo[i];
         }
 
@@ -113,12 +113,13 @@ namespace Sudoku_R_J
                 m_dispo[valeur - 1] = false;
         }
 
+        //Indique si un chiffre est valide dans la grille
         public virtual bool EstValide()
         {
             return true;
         }
 
-        //Retourne le nombre de possibilités pour ce chiffre, 10 si le chiffre est fixé pour faciliter les calculs
+        //Retourne le nombre de possibilités pour ce chiffre, 10 si le chiffre est fixé pour faciliter les calculs (trouver la case avec le moins de possibilités)
         public int NbDispo()
         {
             int res = 0;
