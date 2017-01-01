@@ -32,6 +32,7 @@ namespace Sudoku_R_J
             }
         }
 
+        //Accesseur
         public Jeu GetJeu()
         {
             return this.jeu;
@@ -105,7 +106,8 @@ namespace Sudoku_R_J
                         nbr = 0;
                         break;
                 }
-                GetJeu().SetVisible(i, j, nbr);
+                //Sauvegarde la valeur saisie dans m_val_tapee
+                GetJeu().GetElement(i,j).SetValTapee(nbr);
             }
         }
 
@@ -238,6 +240,20 @@ namespace Sudoku_R_J
                     {
                         //On affiche un message indiquant que la grille n'est pas juste 
                         MessageBox.Show("Veuillez recommencer.", "Votre grille est incorrecte !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //On remet les valeurs tapées (contenues dans Chiffre_Cache) à 0
+                        GetJeu().ReInit();
+                        for(int i=0;i<9;i++)
+                        {
+                            for(int j =0;j<9;j++)
+                            {
+                                if(GetJeu().GetElement(i,j).EstCache())
+                                {
+                                    //On réactualise les textbox afin d'enlever les valeurs saisies préalablement
+                                    String s = this.GetJeu().ValeurString(i, j);
+                                    ((TextBox)tableLayoutPanel1.GetControlFromPosition(j, i)).Text = s;
+                                }
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {

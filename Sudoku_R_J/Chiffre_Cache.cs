@@ -31,8 +31,14 @@ namespace Sudoku_R_J
             return m_valeur_tapee;
         }
 
-        //Renseigne la valeur entrée par l'utilisateur
-        public void SetValTapee(int v)
+        //Renitialise la valeur tapée d'un chiffre
+        public override void ReInit()
+        {
+            m_valeur_tapee = 0;
+        }
+
+        //Modifie la valeur tapée d'un chiffre caché
+        public override void SetValTapee(int v)
         {
             m_valeur_tapee = Valeur(v);
         }

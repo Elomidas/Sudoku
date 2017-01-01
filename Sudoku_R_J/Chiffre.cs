@@ -25,6 +25,12 @@ namespace Sudoku_R_J
             return ((valeur > 0) && (valeur <= 9));
         }
 
+        //Renitialise la valeur tapée d'un chiffre
+        public virtual void ReInit()
+        {
+
+        }
+
         //Remet la case à zéro
         public void Reset()
         {
@@ -73,6 +79,12 @@ namespace Sudoku_R_J
         public virtual int GetValeurVisible()
         {
             return Valeur(m_valeur);
+        }
+
+        //Modifie la valeur tapée d'un chiffre, si elle existe
+        public virtual void SetValTapee(int v)
+        {
+            
         }
 
         //Retourne la valeur du chiffre, 0 si elle n'est pas valide

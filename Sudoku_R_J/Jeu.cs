@@ -127,6 +127,18 @@ namespace Sudoku_R_J
             m_tab_jeu[i, j] = new Chiffre_Cache(Chiffre.Valeur(valeur));
         }
 
+        //Fonction permettant de Réinitialiser le jeu avec les mêmes valeurs, dans le cas où l'utilisateur se trompe
+        public void ReInit()
+        {
+            for(int  i= 0;i<9;i++)
+            {
+                for (int j=0;j<9;j++)
+                {
+                    GetElement(i, j).ReInit();
+                }
+            }
+        }
+
         public void SetChiffreVisible(int i, int j, int valeur)
         {
             if (!IndexOK(i, j))
