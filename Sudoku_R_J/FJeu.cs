@@ -102,8 +102,13 @@ namespace Sudoku_R_J
                         nbr = 9;
                         break;
 
+                    case "":
+                        nbr = 0;
+                        break;
+
                     default:
                         nbr = 0;
+                        tb.Text = "";
                         break;
                 }
                 //Sauvegarde la valeur saisie dans m_val_tapee
