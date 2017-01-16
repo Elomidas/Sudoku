@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sudoku_R_J
+namespace Metier
 {
     public class Jeu
     {
+        //Tableau 2D de chiffres constituant la grille
         private Chiffre[,] m_tab_jeu;
 
+        //Constructeur de base
         public Jeu()
         {
             m_tab_jeu = new Chiffre[9, 9];
@@ -20,6 +22,7 @@ namespace Sudoku_R_J
             }
         }
 
+        //Constructeur surchargé
         public Jeu(Jeu copie)
         {
             m_tab_jeu = new Chiffre[9, 9];
@@ -30,6 +33,7 @@ namespace Sudoku_R_J
             }
         }
 
+        //Vérifie que l'index est compris entre 0 et 9, 9 exclu
         protected bool OK(int index)
         {
             return (index >= 0) && (index < 9);
@@ -47,26 +51,31 @@ namespace Sudoku_R_J
             return IndexOK(i, j) ? m_tab_jeu[i, j].GetValeurVisible() : 0;
         }
 
+        //Retourne la valeur visible pour l'utilisateur, "" si le chiffre est caché et que la valeur n'est pas encore saisie
         public String ValeurString(int i, int j)
         {
             return IndexOK(i, j) ? m_tab_jeu[i, j].GetValeurString() : "";
         }
 
+        //Vérifie que les 2 index son compris entre 0 et 9, 9 exclus
         protected bool IndexOK(int i, int j)
         {
             return ((i >= 0) && (i < 9) && (j >= 0) && (j < 9));
         }
 
+        //vérifie que la case à l'index i,j est cachée
         public bool Cache(int i, int j)
         {
             return IndexOK(i, j) ? m_tab_jeu[i, j].EstCache() : false;
         }
 
+        //accesseur d'un élément du tableau
         public Chiffre GetElement(int i, int j)// i--> ligne // j--> colonne
         {
             return IndexOK(i, j) ? m_tab_jeu[i, j] : new Chiffre();
         }
         
+        //change le chiffre de la case i,j en chiffre caché, avec la même valeur que le chiffre c
         public void SetChiffreCache(int i, int j, Chiffre c)
         {
             if (!IndexOK(i, j))
@@ -74,6 +83,7 @@ namespace Sudoku_R_J
             m_tab_jeu[i, j] = new Chiffre_Cache(c.GetValeur());
         }
 
+        //change le chiffre de la case i,j en chiffre visible, avec la même valeur que le chiffre c
         public void SetChiffreVisible(int i, int j, Chiffre c)
         {
             if (!IndexOK(i, j))
@@ -114,12 +124,7 @@ namespace Sudoku_R_J
             }
         }
 
-        public void SetVisible(int i, int j, int v)
-        {
-            if (Cache(i, j))
-                ((Chiffre_Cache)m_tab_jeu[i, j]).SetValTapee(v);
-        }
-        
+        //change le chiffre de la case i,j en chiffre caché, avec la même valeur que valeur
         public void SetChiffreCache(int i, int j, int valeur)
         {
             if (!IndexOK(i, j))
@@ -139,6 +144,7 @@ namespace Sudoku_R_J
             }
         }
 
+        //change le chiffre de la case i,j en chiffre visible, avec la même valeur que valeur
         public void SetChiffreVisible(int i, int j, int valeur)
         {
             if (!IndexOK(i, j))
@@ -146,6 +152,8 @@ namespace Sudoku_R_J
             m_tab_jeu[i, j] = new Chiffre_Visible(Chiffre.Valeur(valeur));
         }
         
+        //fonction vérifiant que chaque case est valide, c'est à dire que chaque valeur saisie par l'utilisateur
+        //est la valeur attendue(celle contenue dans chiffre caché, m_valeur)
         public bool VerifieTab()
         {
             for (int i = 0; i < 9; i++)
@@ -445,6 +453,7 @@ namespace Sudoku_R_J
             return res;
         }
 
+        //Masque les cases de la grille en fonction du niveau de difficulté
         protected void Masquer(int difficulte, Random rand)
         {
             bool[] tab = new bool[81];
@@ -453,7 +462,7 @@ namespace Sudoku_R_J
             int pos = 81;
             while(pos > 0)
             {
-                //On choisi une case au hasard
+                //On choisit une case au hasard
                 int c = rand.Next(pos);
                 int x = -1, y = 0;
                 for(int n = 0; x == -1; n++)

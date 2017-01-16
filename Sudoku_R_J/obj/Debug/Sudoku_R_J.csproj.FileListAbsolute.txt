@@ -34,3 +34,5 @@ D:\Code\C#\Sudoku\Sudoku_R_J\obj\Debug\Sudoku_R_J.Properties.Resources.resources
 D:\Code\C#\Sudoku\Sudoku_R_J\obj\Debug\Sudoku_R_J.csproj.GenerateResource.Cache
 D:\Code\C#\Sudoku\Sudoku_R_J\obj\Debug\Sudoku_R_J.exe
 D:\Code\C#\Sudoku\Sudoku_R_J\obj\Debug\Sudoku_R_J.pdb
+C:\documents\travail\info\C#\Sudoku\Sudoku_R_J\bin\Debug\Metier.dll
+C:\documents\travail\info\C#\Sudoku\Sudoku_R_J\bin\Debug\Metier.pdb

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sudoku_R_J
+namespace Metier
 {
     public class Chiffre_Cache : Chiffre
     {
@@ -20,6 +20,7 @@ namespace Sudoku_R_J
             m_valeur_tapee = 0;
         }
 
+        //constructeur surchargé
         public Chiffre_Cache(int n) : base(n)
         {
             m_valeur_tapee = 0;
@@ -37,7 +38,7 @@ namespace Sudoku_R_J
             m_valeur_tapee = 0;
         }
 
-        //Modifie la valeur tapée d'un chiffre caché
+        //Modifie la valeur tapée par l'utilisateur d'un chiffre caché
         public override void SetValTapee(int v)
         {
             m_valeur_tapee = Valeur(v);
@@ -59,13 +60,13 @@ namespace Sudoku_R_J
             else return this.m_valeur_tapee.ToString();
         }
 
-        //Indique que le chiffre est caché
+        //booléen vérifiant si le chiffre est caché
         public override bool EstCache()
         {
             return true;
         }
 
-        //Indique que le chiffre n'est pas visible
+        //booléen vérifiant si le chiffre est visible
         public override bool EstVisible()
         {
             return base.EstVisible();

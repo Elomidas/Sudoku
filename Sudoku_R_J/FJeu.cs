@@ -7,18 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Metier;
 
 namespace Sudoku_R_J
 {
     public partial class FJeu : Form
     {
+        //Grille de jeu utilisée
         private Jeu jeu;
+        //Booléen pour savoir si le jeu est terminé ou non
         private bool m_fin;
         //Couleur des valeurs fixées
         private static Color m_cVisib = Color.FromKnownColor(KnownColor.ControlDarkDark);
         //Couleur des valeurs rentrées par l'utilisateur
         private static Color m_cCache = Color.FromKnownColor(KnownColor.Black);
 
+        //Constructeur par défaut
         public FJeu()
         {
             InitializeComponent();
@@ -194,7 +198,7 @@ namespace Sudoku_R_J
                 {
                     //On affiche un message demandant si le joueur veut abandonner la partie actuelle
                     DialogResult res = MessageBox.Show("La grille actuelle n'est pas terminée ! Voulez-vous vraiment l'abandonner ?\nLa fermeture de l'application entrainera la perte de toute votre progression.", "Quitter", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                    choix = res == System.Windows.Forms.DialogResult.Yes;
+                    choix = res == DialogResult.Yes;
                 }
                 catch (Exception ex)
                 {
@@ -267,5 +271,6 @@ namespace Sudoku_R_J
                 }
             }
         }
+
     }
 }

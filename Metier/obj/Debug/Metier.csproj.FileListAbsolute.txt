@@ -1,0 +1,5 @@
+C:\documents\travail\info\C#\Sudoku\Metier\bin\Debug\Metier.dll
+C:\documents\travail\info\C#\Sudoku\Metier\bin\Debug\Metier.pdb
+C:\documents\travail\info\C#\Sudoku\Metier\obj\Debug\Metier.csprojResolveAssemblyReference.cache
+C:\documents\travail\info\C#\Sudoku\Metier\obj\Debug\Metier.dll
+C:\documents\travail\info\C#\Sudoku\Metier\obj\Debug\Metier.pdb

@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sudoku_R_J
+namespace Metier
 {
     public class Chiffre
     {
         //un chiffre comprend une valeur comprise entre 1 et 9
         protected int m_valeur;
+
         protected bool[] m_dispo;
 
         //Test la validité d'un chiffre
@@ -61,21 +62,26 @@ namespace Sudoku_R_J
             SetValeur(n);
         }
 
+        //booléen vérifiant si le chiffre est caché
         public virtual bool EstCache()
         {
             return false;
         }
 
+        //booléen vérifiant si le chiffre est visible 
         public virtual bool EstVisible()
         {
             return false;
         }
 
+        //accesseur renvoyant la valeur du chiffre
         public int GetValeur()
         {
             return Valeur(m_valeur);
         }
 
+        //retourne la valeur visible par l'utilisateur( si le chiffre est visible, on renvoie m_valeur, s'il est caché 
+        //on renvoie m_valeur_tapee
         public virtual int GetValeurVisible()
         {
             return Valeur(m_valeur);
@@ -87,7 +93,7 @@ namespace Sudoku_R_J
             
         }
 
-        //Retourne la valeur du chiffre, 0 si elle n'est pas valide
+        //Retourne la valeur du chiffre, 0 si elle n'est pas valide sous forme de chaîne de caractères
         public virtual String GetValeurString()
         {
             return Valeur(m_valeur).ToString();
